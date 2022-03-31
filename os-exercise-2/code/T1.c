@@ -21,7 +21,13 @@ int main ()
 			arr[(SIZE-1)-i]=1;
 
 	// TODO fork another process here
+	pid = fork()
 	// One process should calculate the median
+	if (fork == 0) {
+
+	} else {
+
+	}
 	// The other process should calculate the mean
 	// One process should communicate its value to the other process
 	// The other process should print both calculated results
