@@ -21,40 +21,37 @@ int main ()
 			arr[(SIZE-1)-i]=1;
 	sort(arr, SIZE);
 
-	// create shared memory
 	errno = 0;
-	int file_desc = shm_open("/reg", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-	if (file_desc < 0) {
-		return errno;
+
+	// create shared memory
+	int file_desc = shm_open("/reg", O_CREAT | O_RDWR, 0660);
+	if (file_desc == -1) {
+		return -1;
 	}
 
 	// truncate to length of one float
-	if (ftruncate(file_desc, sizeof(float)) < 0) {
+	if (ftruncate(file_desc, sizeof(float)) == -1) {
 		return -1;
 	}
 
 	// map memory
 	void *reg_ptr = mmap(NULL, sizeof(float), PROT_READ | PROT_WRITE, MAP_SHARED, file_desc, 0);
-	if (reg_ptr = MAP_FAILED) {
-		printf("check\n");
+	if (reg_ptr == MAP_FAILED) {
 		return -1;
 	}
 
 	// fork another process here
 	int pid = fork();
-	if (pid < 0) {
+	if (pid == -1) {
 		return -1;
 	}
 
 	// parent calculates the mean, the child calculates the median
 	float mean = 0;
-	if (fork == 0) {
+	if (pid == 0) {
 		// child
 		// calculate median value
 		reg_ptr = (int *) &arr[(SIZE-1)/2];
-
-		// one process should communicate its value to the other process
-
 	} else {
 		// parent
 		// calculate mean value
@@ -65,11 +62,14 @@ int main ()
 	}
 
 	// The other process should print both calculated results
-	printf("The child with id %d calculated a median of %f", pid, *(int *) reg_ptr);
-	printf("The parent calculated a mean of %f", mean);
+	if (pid != 0) {
+		printf("The child calculated a median of %f\n", *(int *) reg_ptr);
+		printf("The parent with PID %d calculated a mean of %f\n", pid, mean);
+	}
 
 	// unmap memory
 	munmap(reg_ptr, sizeof(float));
+	shm_unlink("/reg");
 
 	return 0;
 }
