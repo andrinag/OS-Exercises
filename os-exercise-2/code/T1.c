@@ -19,31 +19,32 @@ int main ()
 			arr[(SIZE-1)-i]=0;
 		else
 			arr[(SIZE-1)-i]=1;
+	sortedArr = sort(arr, SIZE);
 
 	// TODO fork another process here
 	pid = fork()
 	// One process should calculate the median
 	if (fork == 0) {
-
+		// child
+		// calculate median value
+		float median = arr[(SIZE-1)/2];
 	} else {
-
+		// parent
+		// calculate mean value
+		float mean = 0;
+		for (int i = 0; i < SIZE-1; i++) {
+			mean += arr[i];
+		}
+		mean /= SIZE;
 	}
-	// The other process should calculate the mean
 	// One process should communicate its value to the other process
 	// The other process should print both calculated results
+	printf("The child with id %d calculated a median of %f", pid, median);
+	printf("The parent calculated a mean of %f", mean);
+
+
 	// Hint use shm_open, ftrucate, mmap, and mumap to communicate over mapped files
-	
-	sortedArr = sort(arr, SIZE);
 
-	// calculate median value
-	float median = arr[(SIZE-1)/2];
-
-	// calculate mean value
-	float mean = 0;
-	for (int i = 0; i < SIZE-1; i++) {
-		mean += arr[i];
-	}
-	mean /= SIZE;
 	return 0;
 }
 
