@@ -27,13 +27,16 @@ int main ()
 	if (file_desc < 0) {
 		return errno;
 	}
+
 	// truncate to length of one float
 	if (ftruncate(file_desc, sizeof(float)) < 0) {
 		return -1;
 	}
+
 	// map memory
-	float* reg_ptr = mmap(NULL, sizeof(float), PROT_READ | PROT_WRITE, MAP_SHARED, file_desc, 0);
+	void *reg_ptr = mmap(NULL, sizeof(float), PROT_READ | PROT_WRITE, MAP_SHARED, file_desc, 0);
 	if (reg_ptr = MAP_FAILED) {
+		printf("check\n");
 		return -1;
 	}
 
@@ -48,7 +51,7 @@ int main ()
 	if (fork == 0) {
 		// child
 		// calculate median value
-		*reg_ptr = arr[(SIZE-1)/2];
+		reg_ptr = (int *) &arr[(SIZE-1)/2];
 
 		// one process should communicate its value to the other process
 
@@ -62,7 +65,7 @@ int main ()
 	}
 
 	// The other process should print both calculated results
-	printf("The child with id %d calculated a median of %f", pid, *reg_ptr);
+	printf("The child with id %d calculated a median of %f", pid, *(int *) reg_ptr);
 	printf("The parent calculated a mean of %f", mean);
 
 	// unmap memory
