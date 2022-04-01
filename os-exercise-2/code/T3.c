@@ -21,7 +21,6 @@ void * accumulate(void * in)
 	for (int i = targs->start; i < targs->end; i++) {
 		sum += targs->arr[i];
 	}
-	printf("i'm a thread and got %i\n", sum);
 	while(pthread_mutex_trylock(&lock)!=0);
 	result += sum;
 	pthread_mutex_unlock(&lock);
@@ -38,28 +37,28 @@ int main () {
 	struct args thread_args[NUM_THREADS-1];
 
 	// create a team of thread, each thread must take SIZE/NUM_THREADS to accumulate
-	for (int i = 1; i < NUM_THREADS; i++) {
+	for (int i = 0; i < (NUM_THREADS-1); i++) {
                 // set values of args struct
 		thread_args[i].arr = arr;
 		thread_args[i].start = (SIZE / NUM_THREADS) * i;
 		thread_args[i].end = ((SIZE / NUM_THREADS) * (i+1));
-		//create thread
+		// create thread
 		pthread_create(&threads[i], NULL, accumulate,&thread_args[i]);
         }
 
 	// main thread must participate in the calculation
 	int sum = 0;
-	for (int i = 0; i < (SIZE / NUM_THREADS); i++) {
+	int i = (SIZE / NUM_THREADS) * (NUM_THREADS - 1);
+	for (; i < SIZE; i++) {
 		sum += arr[i];
-		//printf("index is %d::::: end is %f", i, SIZE / NUM_THREADS);
 	}
-	printf("i'm the main thread and got %i\n", sum);
+
 	while(pthread_mutex_trylock(&lock)!=0);
         result += sum;
         pthread_mutex_unlock(&lock);
 
 	//make sure all threads finised
-	for (int i = 1; i < NUM_THREADS; i++) {
+	for (int i = 0; i < (NUM_THREADS-1); i++) {
                 //create thread
                 pthread_join(threads[i], NULL);
         }
