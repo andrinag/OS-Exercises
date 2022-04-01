@@ -15,6 +15,7 @@ int main (){
                         arr[(SIZE-1)-i]=0;
                 else
                         arr[(SIZE-1)-i]=1;
+	sort(arr, SIZE);
 	// TODO implement you solution here
 	// TODO a new thread here
         // One thread should calculate the median
