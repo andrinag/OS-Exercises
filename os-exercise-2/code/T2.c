@@ -23,21 +23,26 @@ void* calc_mean(void* arg) {
 
 // main function
 int main (){
-        int arr[SIZE];
-        for(int i=SIZE-1;i>=0;i--)
-                if(i%2==0)
-                        arr[(SIZE-1)-i]=0;
-                else
-                        arr[(SIZE-1)-i]=1;
+	int arr[SIZE];
+	for(int i=SIZE-1; i>=0; i--)
+		if(i%2 == 0)
+			arr[(SIZE-1)-i] = 0;
+		else
+			arr[(SIZE-1)-i] = 1;
 	sort(arr, SIZE);
 
 	// calculate mean in new thread
 	float* mean = NULL;
 	pthread_t tid;
-	pthread_create(&tid, NULL, calc_mean,&arr);
-	pthread_join(tid, (void**)&mean);
+	if (pthread_create(&tid, NULL, calc_mean, &arr) != 0) {
+		return -1;
+	}
 
-	// calculate median in min thread
+	if (pthread_join(tid, (void**) &mean) != 0) {
+		return -1;
+	}
+
+	// calculate median in main thread
 	int median = arr[(SIZE-1)/2];
 
 	// One thread should display the result (mean, median)
