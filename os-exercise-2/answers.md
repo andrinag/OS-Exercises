@@ -6,6 +6,6 @@ This is achieved by interleaving the processing of the multiple tasks at a high 
 The processing time of the cpu is split over all the tasks.
 
 **Parallelism:**
-Paralellism devides tsks into smaller parts.
-Those parts are then devided onto multiple CPUs and therefore run simultaneously.
+Parallelism devides tasks into smaller parts.
+Those parts are then devided into multiple CPUs and therefore run simultaneously.
 
