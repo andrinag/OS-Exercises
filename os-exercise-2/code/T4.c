@@ -49,6 +49,7 @@ int main()
         display_average_waiting_time(processes);
 
 }
+
 void init_processes(struct process * input)
 {
 	srand(100);
@@ -56,8 +57,8 @@ void init_processes(struct process * input)
 	{
 		input[i].arrival_time = rand()%10;
 		input[i].execution_time = rand()%10;
-		input[i].process_id= i;
-		input[i].start_time=-1;
+		input[i].process_id = i;
+		input[i].start_time = -1;
 	}
 }
 
@@ -66,7 +67,7 @@ void display(struct process * input){
 	for(int i=0;i<SIZE;i++)
 	{
 		printf("<%d,%d,%d,%d> ",  input[i].process_id,
-		 input[i].arrival_time,  input[i].execution_time, input[i].start_time);	
+		input[i].arrival_time,  input[i].execution_time, input[i].start_time);	
 	}
 	printf("\n");
 }
@@ -74,19 +75,19 @@ void display(struct process * input){
 // swaps two processes in an array
 void swap_processes(struct process *xp, struct process *yp)
 {
-        struct process temp = *xp;
-        *xp = *yp;
-        *yp = temp;
+	struct process temp = *xp;
+	*xp = *yp;
+	*yp = temp;
 }
 
 // sorts processes by arrival time
 void sort_by_arrival(struct process *arr, int size)
 {
-        int i, j;
-        for (i = 0; i < (size-1); i++) {
-                for (j = 0; j < size-i-1; j++){
-                        if (arr[j].arrival_time > arr[j+1].arrival_time){
-                                swap_processes(&arr[j], &arr[j+1]);
+	int i, j;
+	for (i = 0; i < (size-1); i++) {
+		for (j = 0; j < size-i-1; j++){
+			if (arr[j].arrival_time > arr[j+1].arrival_time){
+				swap_processes(&arr[j], &arr[j+1]);
 			}
 		}
 	}
@@ -95,34 +96,34 @@ void sort_by_arrival(struct process *arr, int size)
 // sorts processes by ascending execution time
 void sort_by_exec_asc(struct process *arr, int size)
 {
-        int i, j;
-        for (i = 0; i < (size-1); i++) {
-                for (j = 0; j < size-i-1; j++){
-                        if (arr[j].execution_time > arr[j+1].execution_time){
-                                swap_processes(&arr[j], &arr[j+1]);
-                        }
-                }
-        }
+	int i, j;
+	for (i = 0; i < (size-1); i++) {
+		for (j = 0; j < size-i-1; j++){
+			if (arr[j].execution_time > arr[j+1].execution_time){
+				swap_processes(&arr[j], &arr[j+1]);
+			}
+		}
+	}
 }
 
 // sorts processes by decending execution time
 void sort_by_exec_desc(struct process *arr, int size)
 {
-        int i, j;
-        for (i = 0; i < (size-1); i++) {
-                for (j = 0; j < size-i-1; j++){
-                        if (arr[j].execution_time < arr[j+1].execution_time){
-                                swap_processes(&arr[j], &arr[j+1]);
-                        }
-                }
-        }
+	int i, j;
+	for (i = 0; i < (size-1); i++) {
+		for (j = 0; j < size-i-1; j++){
+			if (arr[j].execution_time < arr[j+1].execution_time){
+				swap_processes(&arr[j], &arr[j+1]);
+			}
+		}
+	}
 }
 
 // sets the arrival time of all processes to zero
 void set_arrival_zero (struct process *arr) {
 	for (int i = 0; i < SIZE; i++) {
-                arr[i].arrival_time = 0;
-        }
+		arr[i].arrival_time = 0;
+	}
 }
 
 
@@ -145,32 +146,32 @@ void schedule_FCFS(struct process * arr)
 
 void schedule_SJF(struct process * arr)
 {
-        // sort by arrival time
-        sort_by_exec_asc(arr, SIZE);
-        // calculate start times
-        arr[0].start_time = arr[0].arrival_time;
-        for (int i = 1; i < SIZE; i++) {
-                arr[i].start_time = arr[i-1].start_time + arr[i-1].execution_time;
-        }
+	// sort by arrival time
+	sort_by_exec_asc(arr, SIZE);
+	// calculate start times
+	arr[0].start_time = arr[0].arrival_time;
+	for (int i = 1; i < SIZE; i++) {
+		arr[i].start_time = arr[i-1].start_time + arr[i-1].execution_time;
+	}
 }
 
 void schedule_LSF(struct process * arr)
 {
-        // sort by arrival time
-        sort_by_exec_desc(arr, SIZE);
-        // calculate start times
-        arr[0].start_time = arr[0].arrival_time;
-        for (int i = 1; i < SIZE; i++) {
-                arr[i].start_time = arr[i-1].start_time + arr[i-1].execution_time;
-        }
+	// sort by arrival time
+	sort_by_exec_desc(arr, SIZE);
+	// calculate start times
+	arr[0].start_time = arr[0].arrival_time;
+	for (int i = 1; i < SIZE; i++) {
+		arr[i].start_time = arr[i-1].start_time + arr[i-1].execution_time;
+	}
 }
 
 void display_average_waiting_time(struct process * arr)
 {
 	float wait_time = 0;
 	for (int i = 0; i < SIZE; i++) {
-                wait_time += arr[i].start_time - arr[i].arrival_time;
-        }
+		wait_time += arr[i].start_time - arr[i].arrival_time;
+	}
 	wait_time /= SIZE;
 	printf("Processes wait an average time of %f\n", wait_time);
 }
