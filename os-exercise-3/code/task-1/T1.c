@@ -34,14 +34,14 @@ int insert_item(buffer_item item)
 {
     // TODO acquire "empty" semaphore and mutex lock
     sem_wait(&empty);
-    while(pthread_mutex_trylock(&mutex) != 0);
+    pthread_mutex_lock(&mutex);
 
     buffer[insertPointer++] = item;
     insertPointer = insertPointer % BUFFER_SIZE;
 
     // TODO release mutex lock and "full" semaphore
     pthread_mutex_unlock(&mutex);
-    sem_post(&empty);
+    sem_post(&full);
 
     return 0;
 }
@@ -58,7 +58,7 @@ int remove_item(buffer_item *item)
 
     // TODO release mutex lock and "empty" semaphore
     pthread_mutex_unlock(&mutex);
-    sem_post(&full);
+    sem_post(&empty);
 
     return 0;
 }
