@@ -33,11 +33,15 @@ void *consumer(void *param);
 int insert_item(buffer_item item)
 {
     // TODO acquire "empty" semaphore and mutex lock
+    sem_wait(&empty);
+    while(pthread_mutex_trylock(&mutex) != 0);
 
     buffer[insertPointer++] = item;
     insertPointer = insertPointer % BUFFER_SIZE;
 
     // TODO release mutex lock and "full" semaphore
+    pthread_mutex_unlock(&mutex);
+    sem_post(&empty);
 
     return 0;
 }
@@ -45,12 +49,16 @@ int insert_item(buffer_item item)
 int remove_item(buffer_item *item)
 {
     // TODO acquire "full" semaphore and mutex lock
+    sem_wait(&full);
+    while(pthread_mutex_trylock(&mutex) != 0);
 
     *item = buffer[removePointer];
     buffer[removePointer++] = -1;
     removePointer = removePointer % BUFFER_SIZE;
 
     // TODO release mutex lock and "empty" semaphore
+    pthread_mutex_unlock(&mutex);
+    sem_post(&full);
 
     return 0;
 }
@@ -62,7 +70,7 @@ int main(int argc, char *argv[])
 
     if (argc != 4)
     {
-        fprintf(stderr, "Useage: <duration> <producer threads> <consumer threads>\n");
+        fprintf(stderr, "Usage: <duration> <producer threads> <consumer threads>\n");
         return -1;
     }
 
@@ -71,6 +79,8 @@ int main(int argc, char *argv[])
     consumerThreads = atoi(argv[3]);
 
     // TODO initialize the synchronization tools
+    sem_init(&empty, 0, BUFFER_SIZE);
+    sem_init(&full, 0, 0);
 
     srand(time(0));
 
