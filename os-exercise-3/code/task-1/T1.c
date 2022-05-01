@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
     // TODO initialize the synchronization tools
     sem_init(&empty, 0, BUFFER_SIZE);
     sem_init(&full, 0, 0);
+	pthread_mutex_init(&mutex, NULL);
 
     srand(time(0));
 
