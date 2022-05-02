@@ -13,8 +13,7 @@ void init()
         thread_id[i] = i;
 
         // TODO initialize condition variable
-
-        // pthread_cond_init()
+        pthread_cond_init(&cond_vars[i], NULL);
     }
 
     // initialize mutex lock
