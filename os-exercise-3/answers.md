@@ -1,6 +1,7 @@
 # Answers Exercise 3
 
 ## Task 1
+
 ### i)
 
 The output with 5 producers and 0 consumers is:
@@ -111,12 +112,14 @@ The producer consumer model is working as it should! Produces until max limit an
 
 ## Task 3
 
-The error lies in the interpretation of integers as booleans in C++. The function try_lock returns 0 if the requested mutex could be locked and 1 if the mutex is already locked by anoter thread.
+The error lies in the interpretation of integers as booleans in C. The function try_lock returns 0 if the requested mutex could be locked and 1 if the mutex is already locked by anoter thread.
 For this code to work we want to enter the if statements at lines 8 and 28 if the mutex could be locked. But because the inteher 0 is interpreted as false the if statements are never entered.
 If the locking failed an even worse situation arrises where one thread tries to access resources currently used by the other thread and later tries to unlock the mutex owned by the other thread.
 
 ## Task 4
+
 ### Bounded Buffer Problem
+
 The bounded buffer problem is about a buffer of size n capable of storing n entities of data. Further there are two processes. The first is called the producer, the second one the Consumer.
 Both try to operate on the buffer. The producer creates new data entities and tries to append them to the buffer. The consumer tries to remove data entities from the buffer.
 
@@ -124,7 +127,7 @@ Both try to operate on the buffer. The producer creates new data entities and tr
 
 ### Dining Philosophers Problem
 
-
 ## Task 5
+
 A Deadlock is caused when two proceses hold a resource each and wait for the other to release it's resource. BOth threads wait for each other indefinitely. No progress is done.
 Starvation occurs if processes have different priorities. If high priority tasks are constantly executed therefore blockig resources of lower priority ones the lower priority processes are blocked indefinitely or at least for a problematic amount of time.
