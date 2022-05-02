@@ -126,8 +126,8 @@ Both try to operate on the buffer. The producer creates new data entities and tr
 The challenge lies in synchronizing the read and write operations to the buffer and preventing an over- or inderflow of the buffer.
 This can be accomplished using three semaphores. A semaphore mutex initialized to 1, a semaphore full initialized to 0 and a semaphore called empty initialized to n. In the producer, wait is called for empty and mutex before an item is added to the buffer. After adding an item to the buffer signal is called for mutex and full. On the consumer side wait is called for full and mutex before removing an item. Signal is called afterwards for mutex and empty.
 
-
 ### Readers-Writers Problem
+
 The readers-writers problem is about a common data set that is shared among a number of concurrent processes. THe processes are split into two groups. The readers that only read the data set and the writers that can both read and write. The challenge lies in allowing multiple processes (reader/writer) to read at the same time but only allow one single writer to access the shared data at the same time. After each writer is finished we have the choice of either scheduling another waiting writer on all the readers.
 
 The problem can be solved using two seamphores called rw_mutex and mutex initialized to 1 together with an integer variable called read_count that is initialized to 0.
@@ -139,7 +139,8 @@ Afterwards signal is called for mutex.
 When a writer executes signal(rw_mutex), we may resume the execution of either the waiting reader(read_count) or of a single waiting writer (waiting on rw_mutex).
 
 ### Dining Philosophers Problem
-The dining philosophers problem is used as an example of concurrency-control when needed to allocate several resources among several (in this case five) processes in a deadlock-free and starvation-free manner. The processes representing philosophers spend their runtime thinking (waiting) or eating (accessing the resources) in an alternating manner. Each process doesn't interact with their neighbours. They occasionally try to access up to two chopsticks (one at a time) to eat from bowl at the center of table. They nee dboth to eat and then release both when done. A siple solution with 5 semaphores leads to a deadlock when all philosophers hungry and all grab left chopstick at the same time. 
+
+The dining philosophers problem is used as an example of concurrency-control when needed to allocate several resources among several (in this case five) processes in a deadlock-free and starvation-free manner. The processes representing philosophers spend their runtime thinking (waiting) or eating (accessing the resources) in an alternating manner. Each process doesn't interact with their neighbours. They occasionally try to access up to two chopsticks (one at a time) to eat from bowl at the center of table. They nee dboth to eat and then release both when done. A siple solution with 5 semaphores leads to a deadlock when all philosophers hungry and all grab left chopstick at the same time.
 
 There are different approaches on how to prevent the deadlock. Those following ones are a few of them.
 
