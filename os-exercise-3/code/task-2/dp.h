@@ -1,3 +1,6 @@
+#ifndef DP_H_
+#define DP_H_
+
 #include <pthread.h>
 
 #define NUMBER 5
@@ -17,3 +20,5 @@ pthread_cond_t cond_vars[NUMBER];
 pthread_mutex_t mutex_lock;
 
 void *philosopher(void *param);
+
+#endif
