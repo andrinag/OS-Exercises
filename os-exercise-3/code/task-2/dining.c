@@ -26,8 +26,7 @@ void test(int i)
         state[i] = EATING;
 
         // TODO unblock threads from condition variable
-        pthread_cond_signal(&cond_vars[left_neighbor(i)]);
-        pthread_cond_signal(&cond_vars[right_neighbor(i)]);
+        pthread_cond_signal(&cond_vars[i]);
     }
 }
 
