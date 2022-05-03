@@ -116,6 +116,8 @@ The error lies in the interpretation of integers as booleans in C. The function 
 For this code to work we want to enter the if statements at lines 8 and 28 if the mutex could be locked. But because the inteher 0 is interpreted as false the if statements are never entered.
 If the locking failed an even worse situation arrises where one thread tries to access resources currently used by the other thread and later tries to unlock the mutex owned by the other thread.
 
+Besides from the above error a Livelock could occur if both threads repetetly try to enter the CS simultaneously. This could be prevented by swapping the order in wich the locks are aquired.
+
 ## Task 4
 
 ### Bounded Buffer Problem
