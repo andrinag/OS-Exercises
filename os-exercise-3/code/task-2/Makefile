@@ -3,13 +3,13 @@
 all: diningphilosophers
 
 diningphilosophers: main.o dining.o philosopher.o
-	gcc -o diningphilosophers main.o dining.o philosopher.o -lpthread
+	gcc -o diningphilosophers main.o dining.o philosopher.o -lpthread -fcommon
 
 main.o: main.c dp.h
-	gcc -c main.c -lpthread
+	gcc -lpthread -c main.c -lpthread -fcommon
 
 dining.o: dining.c dp.h
-	gcc -c dining.c -lpthread
+	gcc -lpthread -c dining.c -lpthread -fcommon
 
 philosopher.o: philosopher.c dp.h
-	gcc -c philosopher.c -lpthread
+	gcc -lpthread -c philosopher.c -lpthread -fcommon
