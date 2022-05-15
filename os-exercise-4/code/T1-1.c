@@ -8,7 +8,7 @@ int main ()
 	int histogram [10];
 	printf("enter numnber: ");
 	scanf("%d", &SIZE);
-	int generated_numbers[SIZE];	
+	int* generated_numbers = (int*) malloc(sizeof(int) * SIZE);	
 	for(int i=0;i<10;i++)
 	{
 		histogram[i]=0;
@@ -26,6 +26,7 @@ int main ()
 	{
 		printf("Value (%d) has been found %d times\n", i, histogram[i]);
 	}
-
+	
+	free(generated_numbers);
 
 }

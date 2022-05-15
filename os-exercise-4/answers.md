@@ -2,4 +2,4 @@
 
 ## Task 1: Memory Management
 
-**T1-1**: The problem is that the value given by the user has been stored in the adress of the int variable SIZE. Problem has been fixed by creating a pointer variable to SIZE, and passing that to scanf.
+**T1-1**: The array can't be initialized on the stack, it is too big, so the easiest solution is to allocate it on the heap.
