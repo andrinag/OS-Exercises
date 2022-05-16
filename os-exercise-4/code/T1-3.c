@@ -31,6 +31,7 @@ void count_sort(int  input[], int size)
 		counter++;
 	}
 
+	free(temp);
 }
 
 int main ()
